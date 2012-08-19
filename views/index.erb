@@ -1,0 +1,12 @@
+<h1 class="headline">Choose your driver</h1>
+
+<ul>
+  <% @drivers.each do |user| %>
+    <li>
+      <a href="/">
+        <img src="<%= user.icon %>" />
+        <span><%= user.full_name %></span>
+      </a>
+    </li>
+  <% end %>
+</ul>
