@@ -1,6 +1,11 @@
 require 'coyote/rake'
 
-task :default => ['build']
+task :default => :spec
+
+task :spec do
+  sh "rspec spec"
+end
+
 multitask :build => ['css:build','js:build']
 multitask :watch => ['css:watch','js:watch']
 
