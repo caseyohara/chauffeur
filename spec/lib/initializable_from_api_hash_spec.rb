@@ -9,6 +9,11 @@ class FakePants
   default_api_method :get_pants
 end
 
+class FakeShoes
+  include InitializableFromApiHash
+  skip_hash_items :style, :material
+end
+
 describe InitializableFromApiHash do
   let(:api) { stub }
 
@@ -24,6 +29,13 @@ describe InitializableFromApiHash do
     pants = FakePants.new(api)
     pants.color.should == "indigo"
     pants.size.should == "enormous"
+  end
+
+  it "does not automatically create method for items marked to exclude" do
+    attributes = { :color => "brown", :size => "12", :style => "awesome", :material => "titanium" }
+    shoes = FakeShoes.new(api, attributes)
+    shoes.color.should == "brown"
+    expect { shoes.style }.to raise_exception
   end
 end
 

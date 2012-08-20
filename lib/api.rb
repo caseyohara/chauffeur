@@ -25,6 +25,10 @@ class API
     end
   end
 
+  def unavailable?
+    !available?
+  end
+
   def authenticatable?
     if request_token and request_token_secret and verifier
       true
@@ -61,9 +65,18 @@ class API
     rdio.call('currentUser', 'extras' => EXTRA_USER_FIELDS)['result']
   end
 
+  def find_user(vanity_name)
+    params = { 'extras' => EXTRA_USER_FIELDS, 'vanityName' => vanity_name }
+    rdio.call('findUser', params)['result']
+  end
+
   def following(params)
-    params.merge!({:extras => EXTRA_USER_FIELDS})
+    params.merge!({:extras => EXTRA_USER_FIELDS, :count => 1000})
     rdio.call('userFollowing', params)['result']
+  end
+
+  def events(params)
+    rdio.call('getHistoryForUser', params)['result']['sources']
   end
 
   def callback_url(url)

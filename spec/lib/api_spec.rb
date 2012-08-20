@@ -27,6 +27,20 @@ describe API do
     end
   end
 
+  context "#unavailable?" do
+    let(:api) { API.new(valid_session) }
+
+    it "returns true when it is not available" do
+      api.stub(:available?) { true }
+      api.unavailable?.should be_false
+    end
+
+    it "returns false when it is available" do
+      api.stub(:available?) { false }
+      api.unavailable?.should be_true
+    end
+  end
+
 
   context "#authenticatable?" do
     it "is authenticatable when it has a token, secret and verifier" do
@@ -68,7 +82,7 @@ describe API do
   context "#following" do
     it "returns an array of attribute hashes for the user's following list" do
       following1, following2 = {'firstName' => 'Dave'}, {'firstName' => 'Donna' }
-      Rdio.any_instance.stub(:call).with('userFollowing', :user => '5678', :extras => API::EXTRA_USER_FIELDS) { {'result' => [following1, following2]} }
+      Rdio.any_instance.stub(:call).with('userFollowing', :user => '5678', :extras => API::EXTRA_USER_FIELDS, :count => 1000) { {'result' => [following1, following2]} }
       api = API.new(valid_session)
       api.following(user: '5678').should == [following1, following2]
     end

@@ -5,17 +5,15 @@ require 'user'
 
 class App < Sinatra::Base
   enable :sessions
-  set :session_secret, "wazzu"
+  set :session_secret, "wazzx"
 
   get '/' do
     api = API.new(session)
-    if api.available?
-      @user = User.new(api)
-      @drivers = @user.drivers
-      erb :index
-    else
-      erb :login
-    end
+    return erb :welcome if api.unavailable?
+
+    @user = User.new(api)
+    @drivers = @user.drivers
+    erb :index
   end
 
 
@@ -43,6 +41,16 @@ class App < Sinatra::Base
   get '/logout' do
     session.clear
     redirect to('/')
+  end
+
+
+  get '/:vanity_name' do
+    api = API.new(session)
+    return erb :welcome if api.unavailable?
+
+    attributes = api.find_user(params[:vanity_name])
+    @driver = User.new(api, attributes)
+    erb :driver
   end
 end
 

@@ -4,4 +4,3 @@ class Track
   include InitializableFromApiHash
 end
 
-

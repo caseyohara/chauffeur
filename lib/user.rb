@@ -1,5 +1,6 @@
 require "initializable_from_api_hash"
 require 'track'
+require 'event'
 
 NullObject = Object.new
 
@@ -19,7 +20,7 @@ class User
 
   def drivers
     @following ||= @api.following(:user => key)
-    @drivers ||= @following.map { |attributes| User.new(@api, attributes) }
+    @following.map { |attributes| User.new(@api, attributes) }
   end
 
   def full_name
@@ -45,5 +46,15 @@ class User
       NullObject
     end
   end
+
+  def events
+    @events ||= @api.events(:user => key)
+    @events.map do |event|
+      event['tracks'].map do |playback_event|
+        Event.new(@api, playback_event)
+      end
+    end.flatten
+  end
+
 end
 

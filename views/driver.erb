@@ -1,0 +1,22 @@
+<h1 class="headline"><%= @driver.full_name %></h1>
+
+<div id="driver">
+  <div id="driver-info">
+    <img src="<%= @driver.icon %>" />
+    <a href="" class="listen-with">Listen with <%= @driver.first_name %> &raquo;</a>
+    <a href="/" class="back-to-drivers">&laquo; Pick a different driver</a>
+  </div>
+
+  <div id="history">
+    <div class="timeline"></div>
+    <% @driver.events.each do |event| %>
+      <div class="event">
+        <img src="<%= event.track.icon %>" />
+        <span class="title"><%= event.track.name %></span>
+        <span class="artist"><%= event.track.artist %></span>
+        <span class="date"><%= event.date %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
