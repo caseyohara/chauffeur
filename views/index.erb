@@ -1,12 +1,14 @@
 <h1 class="headline">Choose your driver</h1>
 
-<ul>
-  <% @drivers.each do |user| %>
-    <li>
-      <a href="/">
-        <img src="<%= user.icon %>" />
-        <span><%= user.full_name %></span>
-      </a>
-    </li>
+<div id="drivers">
+  <% @drivers.each do |driver| %>
+    <a href="/<%= driver.nickname %>" class="driver">
+      <img src="<%= driver.icon %>" />
+      <span class="driver-name"><%= driver.full_name %></span>
+      <span class="driver-last-seen">
+        Last seen <%= driver.last_seen %>
+        playing <%= driver.last_song_played %>
+      </span>
+    </a>
   <% end %>
-</ul>
+</div>

@@ -8,7 +8,7 @@ end
 class API
   RDIO_CONSUMER_KEY = ENV['RDIO_CONSUMER_KEY']
   RDIO_CONSUMER_SECRET = ENV['RDIO_CONSUMER_SECRET']
-  EXTRA_USER_FIELDS = 'lastSongPlayed'
+  EXTRA_USER_FIELDS = 'lastSongPlayed,lastSongPlayTime'
 
   attr_accessor :session, :params
 
@@ -62,6 +62,7 @@ class API
   end
 
   def following(params)
+    params.merge!({:extras => EXTRA_USER_FIELDS})
     rdio.call('userFollowing', params)['result']
   end
 

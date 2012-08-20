@@ -1,15 +1,8 @@
-require 'active_support/all'
+require "initializable_from_api_hash"
 
 class User
-  attr_reader :attributes
-
-  def initialize(api, attributes=nil)
-    @api = api
-    @attributes = attributes || @api.current_user
-    @attributes.each do |name, value|
-      define_singleton_method name.to_s.underscore, lambda { value }
-    end
-  end
+  include InitializableFromApiHash
+  default_api_method :current_user
 
   def drivers
     @following ||= @api.following(:user => key)
@@ -18,6 +11,18 @@ class User
 
   def full_name
     [first_name, last_name].join(" ")
+  end
+
+  def nickname
+    url.split('/').last
+  end
+
+  def last_seen
+    if last_song_play_time.present?
+      Time.parse(last_song_play_time).to_datetime.strftime("%A, %B %d at %I:%M%P")
+    else
+      "Unknown"
+    end
   end
 end
 

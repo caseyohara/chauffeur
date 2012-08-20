@@ -8,7 +8,7 @@ describe User do
     api.stub(:current_user) { user_attributes }
   end
 
-  it "hits the API and creates methods for each property returned" do
+  it "defaults to getting the current user from the API" do
     user = User.new(api)
     user.first_name.should == "Casey"
     user.last_name.should == "O'Hara"
@@ -30,5 +30,14 @@ describe User do
     User.new(api).full_name.should == "Casey O'Hara"
   end
 
+  it "has a nickname" do
+    attributes = { 'url' => '/people/caseyohara' }
+    User.new(api, attributes).nickname.should == "caseyohara"
+  end
+
+  it "knows when it was last seen" do
+    attributes = { 'lastSongPlayTime' => "2012-08-11T01:25:49.631000" }
+    User.new(api, attributes).last_seen.should == "Saturday, August 11 at 01:25am"
+  end
 end
 
