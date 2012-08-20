@@ -43,7 +43,7 @@ body {
   padding: 0;
   border: 0;
   position: relative;
-  font-family: "Helvetica Neue", "Helvetica", sans-serif;
+  #font > .alt > .regular;
 }
 
 
@@ -132,6 +132,48 @@ header {
   }
 }
 
+#drivers {
+  padding-left: 80px;
+  .row {
+    .clearfix();
+  }
+
+  a.driver {
+    display: block;
+    margin: 0 40px 40px 0;
+    float: left;
+    width: 140px;
+
+    img {
+      display: block;
+      width: 100px;
+      height: auto;
+      padding: 20px;
+      background: #fff;
+      margin-bottom: 6px;
+    }
+
+    span.driver-name {
+      display: block;
+      background: #fff;
+      color: #a1a1a1;
+      padding: 3px;
+      text-align: center;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    &:hover {
+      img {
+        background: @medium;
+      }
+      span.driver-name {
+        background: @dark;
+        color: #fff;
+      }
+    }
+  }
+}
 
 
 
