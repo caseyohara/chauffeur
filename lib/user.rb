@@ -1,4 +1,17 @@
 require "initializable_from_api_hash"
+require 'track'
+
+NullObject = Object.new
+
+class << NullObject
+  def method_missing(sym, *args)
+    self
+  end
+
+  def to_s
+    "Unknown"
+  end
+end
 
 class User
   include InitializableFromApiHash
@@ -21,7 +34,15 @@ class User
     if last_song_play_time.present?
       Time.parse(last_song_play_time).to_datetime.strftime("%A, %B %d at %I:%M%P")
     else
-      "Unknown"
+      NullObject
+    end
+  end
+
+  def last_track
+    if last_song_played.present?
+      Track.new(@api, last_song_played)
+    else
+      NullObject
     end
   end
 end
