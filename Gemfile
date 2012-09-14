@@ -6,6 +6,6 @@ gem "sinatra", :require => "sinatra/base"
 gem "i18n"
 gem "active_support"
 gem "rspec"
-gem "guard"
 gem "growl"
-
+gem "listen", "0.4.7"
+gem "guard", "1.2.3"
